@@ -7,8 +7,9 @@
 	var FOOTER_CONTAINER_TAG="#FooterContainer";
 	var SIDEBAR_CONTAINER_TAG="#SidebarContainer";
 	var ARTICLE_CONTAINER_TAG="#ArticleContainer";
-	var ARTICLE_MAX_PER_PAGE=5;
-	
+	var ARTICLE_DEFAULT_PER_PAGE=5;
+	var ARTICLE_CACHE_SIZE=20;
+	var ARTICLE_MAX_ITEM_IN_MEMORY=100;
 	//Model Definition
 	var ArticleEntryCollection=Backbone.Collection.extend({
 		model:ArticleEntryModel,
@@ -24,28 +25,23 @@
 	});
 	//View Definition
 	var ArticleView=Backbone.View.extend({
-		updateArticle:function()
+		showHomeArticleList:function()
 		{
-			if(showedArticleNum>=(article_per_page||ARTICLE_MAX_PER_PAGE))
-			{
-				return;
-			}
-			else
-			{
+			
 				var htmlArticle="";
-				showedArticleNum=0;
+				var showedArticleNum=0;
 				articleEntryCollection.every(function(model){
 					if(model.has("deleted"))
 					{
 						if(model.get("deleted"))
 						{
-							articleEntryCollection.remove(model);
+							return true;//Skip
 						}
 						else
 						{
 							htmlArticle+=_.template( article_template.html, model.attributes );
 							showedArticleNum++;
-							if(showedArticleNum>=(article_per_page||ARTICLE_MAX_PER_PAGE))
+							if(showedArticleNum>=(article_per_page))
 							{
 								return false;
 							}
@@ -54,14 +50,21 @@
 					}
 				});
 				this.$el.html(htmlArticle);
-			}
+			
 		},
-		showSingleArticle:function(id)
+		showSingleArticle:function()
 		{
-			var model=articleEntryCollection.get(id);
+			
+			var model=articleEntryCollection.get(currentPageId);
+			if(!model) 
+			{
+				alert("Failed to ready article");
+				return;
+			}
 			htmlArticle=_.template( article_template.html, model.attributes );
 			this.$el.html(htmlArticle);
-		}
+		},
+		
 		
 	});
 	var HeaderView=Backbone.View.extend({
@@ -92,60 +95,101 @@
 	var	sidebarView=null;
 	var articleView=null;
 	var articleSize=0;
-	var	article_per_page=0;
-	var articlePointer=-1;
-	var showedArticleNum=0;
+	var currentPageId=-1;
+	var article_per_page=ARTICLE_DEFAULT_PER_PAGE;
+	function loadEntryData(id,length)
+	{
+		if(articleEntryCollection.length>ARTICLE_MAX_ITEM_IN_MEMORY)
+		{
+			articleEntryCollection.reset();
+		}
+		if(!id) id=articleSize;
+		if(!length) length=ARTICLE_CACHE_SIZE;
+		var i=0;
+		var needToLoad=0;
+		var hasLoad=0;
+		while(id>0&&i<length)
+		{
+			if(!articleEntryCollection.get(id))
+			{
+				needToLoad++;
+				var model=new ArticleEntryModel();
+				model.id=id;
+				articleEntryCollection.add(model,{silent: true});
+				model.fetch({
+					success:function(rmodel)
+					{
+						
+						hasLoad++;
+						if(hasLoad==needToLoad) 
+							articleEntryCollection.trigger("ready");
+					},
+					error:function(rmodel){
+						hasLoad++;
+						if(hasLoad==needToLoad) 
+							articleEntryCollection.trigger("ready");
+						console.log("unable to load entry:"+rmodel.id);
+					}
+				});
+			}
+			id--;
+			i++;
+		}
+		if(needToLoad==0) articleEntryCollection.trigger("ready");
+	}
+	
+	function showHomeArticleList()
+	{
+			articleView.listenToOnce(articleEntryCollection,"ready",articleView.showHomeArticleList);
+			//Preload article
+			articleCounter.fetch
+			({
+				success:function(rmodel){
+					articleSize=rmodel.get("size");
+					loadEntryData();
+				},
+				error:function(){alert("Loading article counter failed");}
+			});
+	}
+	
+	function showSingleArticle(id)
+	{
+		articleView.listenToOnce(articleEntryCollection,"ready",articleView.showSingleArticle);
+		currentPageId=id;
+		loadEntryData(id,1);
+		
+	
+	}
+	
 	function set_article_per_page(model)
 	{
 		article_per_page=model.get("article_per_page");
-	}
-	function preloadEntryData(model)
-	{
-		articleSize=model.get("size");
-		articlePointer=articleSize;
-		var cache=article_per_page||ARTICLE_MAX_PER_PAGE;
-		var i=0;
-		while(articlePointer>0&&i<cache)
-		{
-			var model=new ArticleEntryModel();
-			model.id=articlePointer;
-			articleEntryCollection.add(model);
-			model.fetch({
-			error:function(rmodel){articleEntryCollection.remove(rmodel);}
-			});
-			articlePointer--;
-		}	
 	}
 	
 	var GitHubPager={
 		init:function(config)
 		{
-			_.extend(this, Backbone.Events);
+			//Init Var
 			headerView=new HeaderView({ el: $(HEADER_CONTAINER_TAG) });
 			footerView=new FooterView({ el: $(FOOTER_CONTAINER_TAG) });
 			sidebarView=new SidebarView({ el: $(SIDEBAR_CONTAINER_TAG) });
 			articleView=new ArticleView({el:$(ARTICLE_CONTAINER_TAG)});
-			this.bindEvent();
-			var app_router = new AppRouter;
-			Backbone.history.start();
-		},
-		decorate:function()
-		{
-			settings.fetch({
-			error:function(){alert("Loading settings failed");}
-			});
-			articleCounter.fetch({
-			error:function(){alert("Loading article counter failed");}
-			});
-		},
-		bindEvent:function()
-		{
+			
+			//Bind Event
 			headerView.listenToOnce(settings,"change",headerView.render);
 			footerView.listenToOnce(settings,"change",footerView.render);
 			sidebarView.listenToOnce(settings,"change",sidebarView.render);
-			articleView.listenTo(articleEntryCollection,"change",articleView.updateArticle);
-			this.listenToOnce(settings,"change",set_article_per_page);
-			this.listenToOnce(articleCounter,"change",preloadEntryData);
+			articleView.listenToOnce(settings,"change",set_article_per_page);
+			//Preload Settings
+			settings.fetch({
+				error:function(){alert("Loading settings failed");}
+			});
+			
+			
+			
+			//Start Router
+			var app_router = new AppRouter;
+			Backbone.history.start();
 		}
 	};
 	
@@ -154,19 +198,15 @@
 	({
         routes: {
             "posts/:id": "getPost",
-			"home":"getHome",
+			
             "*actions": "defaultRoute" 
         },
         getPost: function( id ) {
-			articleView.showSingleArticle(id);
-            
+			showSingleArticle(id);
         },
-		getHome:function()
+        defaultRoute: function( actions )
 		{
-			
-		},
-        defaultRoute: function( actions ){
-           
+           showHomeArticleList();
         }
     });
     // Start Router

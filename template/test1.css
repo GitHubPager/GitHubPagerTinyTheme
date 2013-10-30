@@ -1,0 +1,42 @@
+/*=============排版============*/
+#HeaderContainer,#FooterContainer
+{
+	clear:both;
+}
+#ArticleContainer
+{
+	width:70%;
+	float:left;
+}
+#SidebarContainer
+{
+	width:30%;
+	float:right;
+}
+body{
+	-webkit-text-size-adjust:none;
+	max-width:1200px;
+	position:relative;
+	margin:0 auto}
+/*===============模块样式================*/
+#HeaderContainer
+{
+	padding:1.5em 55px;
+}
+ul
+{
+	list-style:none;
+}
+#HeaderContainer h1 a
+{
+	text-decoration:none;
+}
+/*===============字体================*/
+
+/*==============配色================*/
+html{
+	background:#252525}
+#HeaderContainer,#HeaderContainer h1 a
+{
+	color:#f2f2f2;
+}

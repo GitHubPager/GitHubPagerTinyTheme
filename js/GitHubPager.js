@@ -80,9 +80,30 @@
         }
 	});
 	var SidebarView=Backbone.View.extend({
-		render: function(model){
-           var template = _.template( sidebar_template.html, model.attributes );
-		   this.$el.html(template);
+		
+		showRecentPost: function(model){
+			var attr={};
+			attr.recentPosts=[];
+			var showedArticleNum=0;
+			articleEntryCollection.every(function(model){
+					if(model.has("deleted"))
+					{
+						if(model.get("deleted"))
+						{
+							return true;//Skip
+						}
+						showedArticleNum++;
+						attr.recentPosts.push(model.get("title"));
+						if(showedArticleNum>=(article_per_page))
+						{
+								return false;
+						}
+						
+						return true;
+					}
+			});
+           var template = _.template( sidebar_template.recentPost.html, attr );
+		   this.$el.append(template);
         }
 	});
 	
@@ -141,6 +162,7 @@
 	function showHomeArticleList()
 	{
 			articleView.listenToOnce(articleEntryCollection,"ready",articleView.showHomeArticleList);
+			sidebarView.listenToOnce(articleEntryCollection,"ready",sidebarView.showRecentPost);
 			//Preload article
 			articleCounter.fetch
 			({
@@ -155,6 +177,7 @@
 	function showSingleArticle(id)
 	{
 		articleView.listenToOnce(articleEntryCollection,"ready",articleView.showSingleArticle);
+		
 		currentPageId=id;
 		loadEntryData(id,1);
 		

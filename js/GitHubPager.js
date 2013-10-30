@@ -39,7 +39,7 @@
 						}
 						else
 						{
-							htmlArticle+=_.template( article_template.html, model.attributes );
+							htmlArticle+=_.template( article_template.list.html, model.attributes );
 							showedArticleNum++;
 							if(showedArticleNum>=(article_per_page))
 							{
@@ -61,7 +61,7 @@
 				alert("Failed to ready article");
 				return;
 			}
-			htmlArticle=_.template( article_template.html, model.attributes );
+			htmlArticle=_.template( article_template.single.html, model.attributes );
 			this.$el.html(htmlArticle);
 		},
 		

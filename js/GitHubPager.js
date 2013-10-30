@@ -25,37 +25,40 @@
 	});
 	//View Definition
 	var ArticleView=Backbone.View.extend({
-		showHomeArticleList:function()
+		showArticleList:function()
 		{
-			
 				var htmlArticle="";
+				this.$el.html("");//Empty;
 				var showedArticleNum=0;
-				articleEntryCollection.every(function(model){
-					if(model.has("deleted"))
+				if(pagingPointer<0) pagingPointer=articleSize;
+				while(pagingPointer>=0&&pagingPointer<=articleSize&&showedArticleNum<(article_per_page))
+				{
+					
+					var tmodel=articleEntryCollection.get(pagingPointer);
+					if(tmodel&&tmodel.has("deleted"))
 					{
-						if(model.get("deleted"))
+						if(tmodel.get("deleted"))
 						{
-							return true;//Skip
+							continue;//Skip
 						}
-						else
-						{
-							htmlArticle+=_.template( article_template.list.html, model.attributes );
-							showedArticleNum++;
-							if(showedArticleNum>=(article_per_page))
-							{
-								return false;
-							}
-							return true;
-						}
+						htmlArticle+=_.template( article_template.listItem.html, tmodel.attributes );
+						showedArticleNum++;
 					}
-				});
-				this.$el.html(htmlArticle);
-			
+					if(reverseDirection)
+					pagingPointer++;
+					else
+					pagingPointer--;
+				}
+				if(pagingPointer>0)
+					htmlArticle+=_.template( article_template.next.html,{});
+				if(pagingPointer+article_per_page<articleSize)
+					htmlArticle+=_.template( article_template.prev.html,{});
+				this.$el.append(htmlArticle);
 		},
 		showSingleArticle:function()
 		{
 			
-			var model=articleEntryCollection.get(currentPageId);
+			var model=articleEntryCollection.get(currentSinglePageId);
 			if(!model) 
 			{
 				alert("Failed to ready article");
@@ -82,6 +85,7 @@
 	var SidebarView=Backbone.View.extend({
 		
 		showRecentPost: function(model){
+			if(isRecentPostsShowed) return false;
 			var attr={};
 			attr.recentPosts=[];
 			var showedArticleNum=0;
@@ -103,10 +107,13 @@
 					}
 			});
            var template = _.template( sidebar_template.recentPost.html, attr );
-		   this.$el.append(template);
+		   this.$el.prepend(template);
+		   isRecentPostsShowed=true;
         }
 	});
 	
+	
+	//Some variables
 	var settings=new SettingsModel();
 	var articleCounter=new ArticleCounterModel();
 	var articleEntryCollection=new ArticleEntryCollection();
@@ -115,16 +122,27 @@
 	var	footerView=null;
 	var	sidebarView=null;
 	var articleView=null;
+	//All Post Counter
 	var articleSize=0;
-	var currentPageId=-1;
+	//Single Post Page
+	var currentSinglePageId=-1;
+	//Paging System
+	var pagingPointer=-1;
+
 	var article_per_page=ARTICLE_DEFAULT_PER_PAGE;
+	var reverseDirection=false;
+	//Sidebar
+	var isRecentPostsShowed=false;
+	
+	
+	
 	function loadEntryData(id,length)
 	{
 		if(articleEntryCollection.length>ARTICLE_MAX_ITEM_IN_MEMORY)
 		{
 			articleEntryCollection.reset();
 		}
-		if(!id) id=articleSize;
+		if(id<=0) id=articleSize;
 		if(!length) length=ARTICLE_CACHE_SIZE;
 		var i=0;
 		var needToLoad=0;
@@ -159,35 +177,39 @@
 		if(needToLoad==0) articleEntryCollection.trigger("ready");
 	}
 	
-	function showHomeArticleList()
+	function loadAndShowArticleList(pointer)
 	{
-			articleView.listenToOnce(articleEntryCollection,"ready",articleView.showHomeArticleList);
+			
+			articleView.listenToOnce(articleEntryCollection,"ready",articleView.showArticleList);
 			sidebarView.listenToOnce(articleEntryCollection,"ready",sidebarView.showRecentPost);
-			//Preload article
+			if(pointer) pagingPointer=pointer;
 			articleCounter.fetch
 			({
 				success:function(rmodel){
 					articleSize=rmodel.get("size");
-					loadEntryData();
+					loadEntryData(pagingPointer);
 				},
 				error:function(){alert("Loading article counter failed");}
 			});
 	}
 	
-	function showSingleArticle(id)
+	function loadAndShowSingleArticle(id)
 	{
 		articleView.listenToOnce(articleEntryCollection,"ready",articleView.showSingleArticle);
-		
-		currentPageId=id;
+		currentSinglePageId=id;
 		loadEntryData(id,1);
-		
-	
 	}
 	
 	function set_article_per_page(model)
 	{
 		article_per_page=model.get("article_per_page");
 	}
+	
+	function setReversePagingDirection(direction)
+	{
+		reverseDirection=direction;
+	}
+	
 	
 	var GitHubPager={
 		init:function(config)
@@ -208,8 +230,6 @@
 				error:function(){alert("Loading settings failed");}
 			});
 			
-			
-			
 			//Start Router
 			var app_router = new AppRouter;
 			Backbone.history.start();
@@ -221,15 +241,24 @@
 	({
         routes: {
             "posts/:id": "getPost",
-			
+			"nextPage":"nextPage",
+			"prevPage":"prevPage",
             "*actions": "defaultRoute" 
         },
         getPost: function( id ) {
-			showSingleArticle(id);
+			loadAndShowSingleArticle(id);
         },
+		nextPage:function(){
+			setReversePagingDirection(false);
+			loadAndShowArticleList();
+		},
+		prevPage:function(){
+			setReversePagingDirection(true);
+			loadAndShowArticleList();
+		},
         defaultRoute: function( actions )
 		{
-           showHomeArticleList();
+           loadAndShowArticleList();
         }
     });
     // Start Router

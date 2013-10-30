@@ -1,0 +1,64 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,img,ins,kbd,q,s,samp,small,strike,strong,
+sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td,article,aside,canvas,details,embed,figure,figcaption,footer_info,
+header,hgroup,menu,nav,output,ruby,section,summary,time,mark,audio,video{
+	margin:0;
+	padding:0;
+	border:0;
+	font-size:100%;
+	font:inherit;
+	vertical-align:baseline}
+body{
+	line-height:1}
+ol,ul{
+	list-style:none}
+table{
+	border-collapse:collapse;
+	border-spacing:0}
+caption,th,td{
+	text-align:left;
+	font-weight:normal;
+	vertical-align:middle}
+q,blockquote{
+	quotes:none}
+q:before,q:after,blockquote:before,blockquote:after{
+	content:"";
+	content:none}
+a img{
+	border:none}
+article,aside,details,figcaption,figure,footer_info,header,hgroup,menu,nav,section,summary{
+	display:block}
+article,aside,details,figcaption,figure,footer_info,header,hgroup,menu,nav,section,summary{
+	display:block}
+a{
+	color:#1863a1}
+a:visited{
+	color:#751590}
+a:focus{
+	color:#0181eb}
+a:hover{
+	color:#0181eb}
+a:active{
+	color:#01579f}
+body{
+	line-height:1.5em;
+	color:#222}
+h1{
+	font-size:2.2em;
+	line-height:1.2em}
+@mediaonlyscreenand(min-width:992px){
+	body{
+	font-size:1.15em}
+h1{
+	font-size:2.6em;
+	line-height:1.2em}
+}
+body{
+	-webkit-text-size-adjust:none;
+	max-width:1200px;
+	position:relative;
+	margin:0 auto}
+@mediaonlyscreenand(min-width:768px){
+	body{
+	-webkit-text-size-adjust:auto}
+body>header{
+	font-size:1.2em}

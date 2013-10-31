@@ -39,7 +39,7 @@
 					}
 					else
 					{
-						htmlArticle+=_.template( article_template.single.html, model.attributes );
+						htmlArticle+=_.template( article_template.listItem.html, model.attributes );
 					}
 				});
 				if(_.find(index,function(val){return val<ids[ids.length-1];}))
@@ -185,7 +185,6 @@
 						articleEntryCollection.remove(rmodel,{silent: true});
 						if(hasLoad==needToLoad) 
 							articleEntryCollection.trigger("dataAvailable",ids);
-						console.log("unable to load entry:"+rmodel.id);
 					}
 				});
 			}
@@ -256,7 +255,6 @@
 					articleIndex.fetch({
 						success:function()
 						{ 
-							console.log("Page Init successful"); 
 							Backbone.history.start();
 						},
 						error:function(){alert("Loading index failed");}

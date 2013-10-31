@@ -7,6 +7,15 @@
 {
 	clear:both;
 }
+#NavigationContainer
+{
+	position:relative;
+}
+#NavigationContainer li
+{
+	float:left;
+	display:inline;
+}
 #ArticleContainer
 {
 	width:74%;
@@ -17,6 +26,14 @@
 	width:22%;
 	float:left;
 }
+.article_prev
+{
+	float:left;
+}
+.article_next
+{
+	float:right;
+}
 body{
 	-webkit-text-size-adjust:none;
 	max-width:1200px;
@@ -24,9 +41,38 @@ body{
 	margin:0 auto
 }
 /*===============模块样式================*/
+#Container
+{
+	border-bottom-right-radius: 0.4em;
+	border-bottom-left-radius: 0.4em;
+	margin-bottom:2em;
+}
 #HeaderContainer
 {
 	padding:1.5em 55px;
+}
+#NavigationContainer
+{
+	margin:0;
+	padding-left:55px;
+	padding-top:0.35em;
+	padding-bottom:0.35em;
+	border-top: 1px solid #f2f2f2;
+	border-bottom: 1px solid #8c8c8c;
+}
+#NavigationContainer ul
+{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	overflow: hidden;
+	display: block;
+	padding-top: .15em;
+}
+#NavigationContainer li
+{
+	padding:0.5em;
+	margin-right:0.5em;
 }
 #ArticleContainer
 {
@@ -35,7 +81,7 @@ body{
 .article
 {
 	margin-top:0;
-	margin-bottom:0;
+	margin-bottom:2em;
 	padding-top:2em;
 	padding-left:55px;
 	padding-right:55px;
@@ -61,17 +107,39 @@ body{
 {
 	padding:1%;
 }
+#SidebarContainer h1
+{
+	margin-bottom:0;
+	border-bottom:1px solid #e0e0e0;
+}
+#SidebarContainer li
+{
+	margin:0;
+	padding:0.5em 0;
+	border-bottom:1px solid #e0e0e0;
+}
 ul
 {
+	margin:0;
+	padding:0;
 	list-style:none;
 }
 #HeaderContainer h1 a
 {
 	text-decoration:none;
 }
+#HeaderContainer h1,#HeaderContainer h2
+{
+	margin:0;
+}
+#HeaderContainer h2
+{
+	margin-top:.5em;
+}
 .article_next
 {
 	display:block;
+	width:86px;
 	margin-top:1em;
 	padding-bottom:2.5em;
 	padding-left:55px;
@@ -90,6 +158,31 @@ ul
 }
 .article_next a:hover
 {
+	background-color:#4172da;
+	color:#f2f2f2;
+}
+.article_prev
+{
+	display:block;
+	width:86px;
+	margin-top:1em;
+	padding-bottom:2.5em;
+	padding-left:55px;
+	padding-right:55px;
+}
+.article_prev a
+{
+	background: #ebebeb;
+	display: inline-block;
+	padding: .6em 1.2em;
+	margin-right: .5em;
+	text-decoration: none;
+	color: #666;
+	-webkit-transition: background-color 0.5s;
+	transition: background-color 0.5s;
+}
+.article_prev a:hover
+{
 	background-color: #4172da;
 	color:#f2f2f2;
 }
@@ -106,14 +199,40 @@ ul
 	padding-right: 55px;
 }
 /*===============字体================*/
+body
+{
+	font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif;;
+}
+#NavigationContainer
+{
+	font-size: .9em;
+}
+#NavigationContainer li
+{
+	font-size: 1.1em;
+}
+#SidebarContainer h1
+{
+	font-size:1.5em;
+}
+#HeaderContainer h1
+{
+	font-size:2.6em;
+}
 #FooterContainer
 {
-	font-size: .8em;
+	font-size: 1.2em;
 	color: #888;
 	text-shadow: #d9d9d9 0 1px;	
 	font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif;
 }
 .article_next a
+{
+	font-family: "PT Serif", Georgia, Times, "Times New Roman", serif;
+	font-size:1.2em;
+	font-weight:bold;
+}
+.article_prev a
 {
 	font-family: "PT Serif", Georgia, Times, "Times New Roman", serif;
 	font-size:1.2em;
@@ -142,6 +261,11 @@ html
 {
 	background:#333;
 }
+#NavigationContainer
+{
+	background-color: #ccc;
+	background: url('images/noise.png'),-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(50%, #cccccc), color-stop(100%, #b0b0b0));
+}
 #ArticleContainer
 {
 	background:#f8f8f8;
@@ -154,4 +278,8 @@ html
 .article
 {
 	background: url('images/dotline.png') top left repeat-x;
+}
+.article:first-child
+{
+	background: none;
 }

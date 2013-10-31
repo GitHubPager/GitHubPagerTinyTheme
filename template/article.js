@@ -7,10 +7,10 @@ article_template.listItem={'html':' \
 <div class="article_time">Date: <%=date%></div> \
 </div>'};
 article_template.next={'html':' \
-<span class="article_next"><a href="#/nextPage">Next</a></span> \
+<span class="article_next"><a href="#/page/<%=page%>">Next</a></span> \
 '};
 article_template.prev={'html':' \
-<span class="article_prev"><a href="#/prevPage">Prev</a></span> \
+<span class="article_prev"><a href="#/page/<%=page%>">Prev</a></span> \
 '};
 article_template.single={'html':' \
 <div class="article"> \

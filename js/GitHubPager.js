@@ -101,7 +101,10 @@
 				}
 				else
 				{
-					attr.recentPosts.push(model.get("title"));
+					var post={};
+					post.title=model.get("title");
+					post.id=model.get("id");
+					attr.recentPosts.push(post);
 				}
 			});
 			var template = _.template( sidebar_template.recentPost.html, attr );

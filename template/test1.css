@@ -1,4 +1,8 @@
 /*=============ее╟Ф============*/
+#Container
+{
+	position:relative;
+}
 #HeaderContainer,#FooterContainer
 {
 	clear:both;
@@ -55,7 +59,7 @@ body{
 }
 #SidebarContainer
 {
-	padding:20px;
+	padding:1%;
 }
 ul
 {
@@ -92,6 +96,7 @@ ul
 #FooterContainer
 {
 	border-bottom-right-radius: 0.4em;
+	border-bottom-left-radius: 0.4em;
 	z-index: 1;
 	border-top: 1px solid #f2f2f2;
 	position: relative;
@@ -130,7 +135,7 @@ html
 }
 #Container
 {
-	background:#f2f2f2 url('../data/images/noise.png') top left;
+	background:#f2f2f2 url('images/noise.png') top left;
 	border-bottom: 1px solid #bfbfbf;
 }
 #HeaderContainer
@@ -144,9 +149,9 @@ html
 #FooterContainer
 {
 	background-color: #ccc;
-	background: url('../data/images/noise.png'),-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(50%, #cccccc), color-stop(100%, #b0b0b0));
+	background: url('images/noise.png'),-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(50%, #cccccc), color-stop(100%, #b0b0b0));
 }
 .article
 {
-	background: url('../data/images/dotline.png') top left repeat-x;
+	background: url('images/dotline.png') top left repeat-x;
 }

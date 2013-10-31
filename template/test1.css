@@ -201,15 +201,19 @@ ul
 /*===============×ÖÌå================*/
 body
 {
-	font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif;;
+	font-family: serif, "Helvetica Neue", Arial, sans-serif;;
 }
-#NavigationContainer
+body p
 {
-	font-size: .9em;
+	font-size:20px;
 }
 #NavigationContainer li
 {
-	font-size: 1.1em;
+	font-size: 1.2em;
+	color: #888;
+	text-shadow: #d9d9d9 0 1px;
+	font-family: serif,"PT Sans", "Helvetica Neue", Arial, sans-serif;
+	font-weight:bold;
 }
 #SidebarContainer h1
 {
@@ -228,13 +232,13 @@ body
 }
 .article_next a
 {
-	font-family: "PT Serif", Georgia, Times, "Times New Roman", serif;
+	font-family: serif,"PT Serif", Georgia, Times, "Times New Roman", serif;
 	font-size:1.2em;
 	font-weight:bold;
 }
 .article_prev a
 {
-	font-family: "PT Serif", Georgia, Times, "Times New Roman", serif;
+	font-family: serif,"PT Serif", Georgia, Times, "Times New Roman", serif;
 	font-size:1.2em;
 	font-weight:bold;
 }

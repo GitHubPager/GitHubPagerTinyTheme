@@ -7,6 +7,7 @@
 	var FOOTER_CONTAINER_TAG="#FooterContainer";
 	var SIDEBAR_CONTAINER_TAG="#SidebarContainer";
 	var ARTICLE_CONTAINER_TAG="#ArticleContainer";
+	var NAVIGATION_CONTAINER_TAG="#NavigationContainer";
 	var ARTICLE_DEFAULT_PER_PAGE=5;
 	var ARTICLE_CACHE_SIZE=20;
 	var ARTICLE_MAX_ITEM_IN_MEMORY=100;
@@ -41,7 +42,7 @@
 					else
 					{
 
-						htmlArticle+=_.template( article_template.listItem.html, model.attributes );
+						
 						var originalText=model.get("content");
 						var excerpt=$(originalText).text().substring(0,ARTICLE_EXCERPT_SIZE);
 						model.set("excerpt",excerpt);
@@ -92,6 +93,12 @@
 		   this.$el.html(template);
         }
 	});
+	var NavigationView=Backbone.View.extend({
+		render: function(model){
+           var template = _.template( navigation_template.html, model.attributes );
+		   this.$el.html(template);
+        }
+	});
 	var SidebarView=Backbone.View.extend({
 		
 		showRecentPost: function(ids){
@@ -118,6 +125,9 @@
 			this.$el.prepend(template);
 			this.showSocialLink();
         },
+		showSocialLink:function()
+		{
+		}
 	
 	});
 	//Router Definition
@@ -150,6 +160,7 @@
 	var	footerView=null;
 	var	sidebarView=null;
 	var articleView=null;
+	var navigationView=null;
 	var index=null;
 	//Single Post Page
 	var currentSinglePageId=-1;
@@ -248,11 +259,12 @@
 			footerView=new FooterView({ el: $(FOOTER_CONTAINER_TAG) });
 			sidebarView=new SidebarView({ el: $(SIDEBAR_CONTAINER_TAG) });
 			articleView=new ArticleView({el:$(ARTICLE_CONTAINER_TAG)});
-			
+			navigationView=new NavigationView({el:$(NAVIGATION_CONTAINER_TAG)});
 			//Bind Event
 			headerView.listenToOnce(settings,"change",headerView.render);
 			footerView.listenToOnce(settings,"change",footerView.render);
 			sidebarView.listenToOnce(settings,"change",sidebarView.render);
+			navigationView.listenToOnce(settings,"change",navigationView.render);
 			articleView.listenToOnce(settings,"change",set_article_per_page);
 			articleView.listenToOnce(articleIndex,"change",setupIndex);
 			

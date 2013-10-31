@@ -41,6 +41,19 @@ body{
 	margin:0 auto
 }
 /*===============模块样式================*/
+a
+{
+	text-decoration:none;
+	color:black;
+	-webkit-transition: color 0.3s;
+	transition: color 0.3s;
+}
+ul
+{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
 #Container
 {
 	border-bottom-right-radius: 0.4em;
@@ -72,7 +85,14 @@ body{
 #NavigationContainer li
 {
 	padding:0.5em;
-	margin-right:0.5em;
+}
+#NavigationContainer li+li
+{
+	border-left: 1px solid #b0b0b0;
+}
+#NavigationContainer li a:hover
+{
+	color:black;
 }
 #ArticleContainer
 {
@@ -103,6 +123,10 @@ body{
 	-webkit-transition: color 0.3s;
 	transition: color 0.3s;
 }
+.article_time
+{
+	margin-top:2em;
+}
 #SidebarContainer
 {
 	padding:1%;
@@ -118,11 +142,10 @@ body{
 	padding:0.5em 0;
 	border-bottom:1px solid #e0e0e0;
 }
-ul
+#SidebarContainer li a:hover
 {
-	margin:0;
-	padding:0;
-	list-style:none;
+	color:#4172da;
+	text-decoration:underline;
 }
 #HeaderContainer h1 a
 {
@@ -205,19 +228,36 @@ body
 }
 body p
 {
-	font-size:20px;
+	font-size:1.2em;
 }
-#NavigationContainer li
+#NavigationContainer li a
 {
 	font-size: 1.2em;
-	color: #888;
-	text-shadow: #d9d9d9 0 1px;
+	text-shadow: #ebebeb 0 1px;
 	font-family: serif,"PT Sans", "Helvetica Neue", Arial, sans-serif;
 	font-weight:bold;
+	color: #6b6b6b;
+}
+.article_content
+{
+	font-family: serif,"PT Sans", "Helvetica Neue", Arial, sans-serif;
+	font-size:1.2em;
+}
+#SidebarContainer
+{
+	font-family:"PT Sans", "Helvetica Neue", Arial, sans-serif;
 }
 #SidebarContainer h1
 {
 	font-size:1.5em;
+	font-family:"PT Sans", "Helvetica Neue", Arial, sans-serif;
+}
+#SidebarContainer li a
+{
+	text-shadow: #ebebeb 0 1px;
+	font-family: serif,"PT Sans", "Helvetica Neue", Arial, sans-serif;
+	font-weight:bold;
+	color: #6b6b6b;
 }
 #HeaderContainer h1
 {
@@ -245,6 +285,13 @@ body p
 .article_title a
 {
 	font-size:2.2em;
+	font-weight:bold;
+}
+.article_time
+{
+	text-transform:uppercase;
+	font-family: serif,"PT Serif", Georgia, Times, "Times New Roman", serif;
+	color:#aaa;
 	font-weight:bold;
 }
 /*==============配色================*/

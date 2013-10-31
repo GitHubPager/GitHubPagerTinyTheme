@@ -198,7 +198,6 @@
 	function loadAndShowArticleList(pageId)
 	{
 		if(pageId) currentPageId=pageId;
-		alert(currentPageId);
 		articleView.listenToOnce(articleEntryCollection,"dataAvailable",articleView.showArticleList);
 		sidebarView.listenToOnce(articleEntryCollection,"dataAvailable",sidebarView.showRecentPost);
 		var ids=[];

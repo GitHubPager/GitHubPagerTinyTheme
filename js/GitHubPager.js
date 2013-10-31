@@ -10,6 +10,7 @@
 	var ARTICLE_DEFAULT_PER_PAGE=5;
 	var ARTICLE_CACHE_SIZE=20;
 	var ARTICLE_MAX_ITEM_IN_MEMORY=100;
+	var ARTICLE_EXCERPT_SIZE=120;
 	//Model Definition
 	var ArticleEntryCollection=Backbone.Collection.extend({
 		model:ArticleEntryModel,
@@ -39,7 +40,11 @@
 					}
 					else
 					{
-						htmlArticle+=_.template( article_template.single.html, model.attributes );
+						var originalText=model.get("content");
+						var excerpt=$(originalText).text().substring(0,ARTICLE_EXCERPT_SIZE);
+						model.set("excerpt",excerpt);
+						htmlArticle+=_.template( article_template.listItem.html, model.attributes );
+						
 					}
 				});
 				if(_.find(index,function(val){return val<ids[ids.length-1];}))
@@ -65,6 +70,7 @@
 					}
 					else
 					{
+						
 						htmlArticle+=_.template( article_template.single.html, model.attributes );
 					}
 				});
@@ -111,10 +117,7 @@
 			this.$el.prepend(template);
 			this.showSocialLink();
         },
-		showSocialLink:function()
-		{
-			
-		}
+	
 	});
 	//Router Definition
 	var AppRouter = Backbone.Router.extend
@@ -155,6 +158,7 @@
 
 	//Router
 	var app_router = new AppRouter;
+	
 	
 	
 	

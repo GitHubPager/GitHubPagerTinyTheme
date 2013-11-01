@@ -37,11 +37,10 @@
 					var model=articleEntryCollection.get(id);
 					if(!model) 
 					{
-						
+						return true;
 					}
 					else
 					{
-
 						
 						var originalText=model.get("content");
 						var excerpt=$(originalText).text().substring(0,ARTICLE_EXCERPT_SIZE);
@@ -77,7 +76,20 @@
 					}
 				});
 				this.$el.html(htmlArticle);
+				this.showComment();
 		},
+		showComment:function()
+		{
+			var disqus_shortname = "githubpager";
+			disqus_identifier = settings.get("domain")+'/'+currentSinglePageId
+		    disqus_url = settings.get("domain")+'/'+currentSinglePageId;
+			var disqus_script = 'embed.js';
+			var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+			dsq.src = "http://"+disqus_shortname + '.disqus.com/' + disqus_script;
+			console.log(dsq.src);
+			(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+			
+		}
 		
 		
 	});
@@ -203,7 +215,9 @@
 						hasLoad++;
 						articleEntryCollection.remove(rmodel,{silent: true});
 						if(hasLoad==needToLoad) 
+						{	
 							articleEntryCollection.trigger("dataAvailable",ids);
+						}
 					}
 				});
 			}
@@ -286,6 +300,7 @@
 			
 		}
 	};
+	
 	
 	
     // Start Router

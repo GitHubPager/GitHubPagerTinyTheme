@@ -1,4 +1,10 @@
 /*=============排版============*/
+body{
+	-webkit-text-size-adjust:none;
+	max-width:1200px;
+	position:relative;
+	margin:0 auto
+}
 #Container
 {
 	position:relative;
@@ -21,11 +27,6 @@
 	width:74%;
 	float:left;
 }
-#SidebarContainer
-{
-	width:22%;
-	float:left;
-}
 .article_prev
 {
 	float:left;
@@ -34,11 +35,10 @@
 {
 	float:right;
 }
-body{
-	-webkit-text-size-adjust:none;
-	max-width:1200px;
-	position:relative;
-	margin:0 auto
+#SidebarContainer
+{
+	width:22%;
+	float:left;
 }
 /*===============模块样式================*/
 a
@@ -63,6 +63,18 @@ ul
 #HeaderContainer
 {
 	padding:1.5em 55px;
+}
+#HeaderContainer h1 a
+{
+	text-decoration:none;
+}
+#HeaderContainer h1,#HeaderContainer h2
+{
+	margin:0;
+}
+#HeaderContainer h2
+{
+	margin-top:.5em;
 }
 #NavigationContainer
 {
@@ -126,38 +138,32 @@ ul
 .article_time
 {
 	margin-top:2em;
+	word-spacing:4px;
 }
-#SidebarContainer
+.article_tail
 {
-	padding:1%;
+	padding-top:2em;
+	word-spacing:4px;
 }
-#SidebarContainer h1
+.article_tail .article_time
 {
-	margin-bottom:0;
-	border-bottom:1px solid #e0e0e0;
+	display:inline-block;
+	margin-top:0;
+	word-spacing:4px;
 }
-#SidebarContainer li
+.article_author
 {
-	margin:0;
-	padding:0.5em 0;
-	border-bottom:1px solid #e0e0e0;
+	display:inline-block;
+	border-left:1px solid #b0b0b0;
+	padding-left:8px;
+	word-spacing:4px;
 }
-#SidebarContainer li a:hover
+.article_tag
 {
-	color:#4172da;
-	text-decoration:underline;
-}
-#HeaderContainer h1 a
-{
-	text-decoration:none;
-}
-#HeaderContainer h1,#HeaderContainer h2
-{
-	margin:0;
-}
-#HeaderContainer h2
-{
-	margin-top:.5em;
+	display:inline-block;
+	border-left:1px solid #b0b0b0;
+	padding-left:8px;
+	word-spacing:4px;
 }
 .article_next
 {
@@ -209,6 +215,26 @@ ul
 	background-color: #4172da;
 	color:#f2f2f2;
 }
+#SidebarContainer
+{
+	padding:1%;
+}
+#SidebarContainer h1
+{
+	margin-bottom:0;
+	border-bottom:1px solid #e0e0e0;
+}
+#SidebarContainer li
+{
+	margin:0;
+	padding:0.5em 0;
+	border-bottom:1px solid #e0e0e0;
+}
+#SidebarContainer li a:hover
+{
+	color:#4172da;
+	text-decoration:underline;
+}
 #FooterContainer
 {
 	border-bottom-right-radius: 0.4em;
@@ -230,6 +256,10 @@ body p
 {
 	font-size:1.2em;
 }
+#HeaderContainer h1
+{
+	font-size:2.6em;
+}
 #NavigationContainer li a
 {
 	font-size: 1.2em;
@@ -237,11 +267,6 @@ body p
 	font-family: serif,"PT Sans", "Helvetica Neue", Arial, sans-serif;
 	font-weight:bold;
 	color: #6b6b6b;
-}
-.article_content
-{
-	font-family: serif,"PT Sans", "Helvetica Neue", Arial, sans-serif;
-	font-size:1.2em;
 }
 #SidebarContainer
 {
@@ -259,28 +284,10 @@ body p
 	font-weight:bold;
 	color: #6b6b6b;
 }
-#HeaderContainer h1
+.article_content
 {
-	font-size:2.6em;
-}
-#FooterContainer
-{
-	font-size: 1.2em;
-	color: #888;
-	text-shadow: #d9d9d9 0 1px;	
-	font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif;
-}
-.article_next a
-{
-	font-family: serif,"PT Serif", Georgia, Times, "Times New Roman", serif;
+	font-family: serif,"PT Sans", "Helvetica Neue", Arial, sans-serif;
 	font-size:1.2em;
-	font-weight:bold;
-}
-.article_prev a
-{
-	font-family: serif,"PT Serif", Georgia, Times, "Times New Roman", serif;
-	font-size:1.2em;
-	font-weight:bold;
 }
 .article_title a
 {
@@ -294,19 +301,52 @@ body p
 	color:#aaa;
 	font-weight:bold;
 }
+.article_author
+{
+	text-transform:uppercase;
+	font-family: serif,"PT Serif", Georgia, Times, "Times New Roman", serif;
+	color:#aaa;
+	font-weight:bold;
+}
+.article_tag
+{
+	text-transform:uppercase;
+	font-family: serif,"PT Serif", Georgia, Times, "Times New Roman", serif;
+	color:#aaa;
+	font-weight:bold;
+}
+.article_next a
+{
+	font-family: serif,"PT Serif", Georgia, Times, "Times New Roman", serif;
+	font-size:1.2em;
+	font-weight:bold;
+}
+.article_prev a
+{
+	font-family: serif,"PT Serif", Georgia, Times, "Times New Roman", serif;
+	font-size:1.2em;
+	font-weight:bold;
+}
+#FooterContainer
+{
+	font-size: 1.2em;
+	color: #888;
+	text-shadow: #d9d9d9 0 1px;	
+	font-family: "PT Sans", "Helvetica Neue", Arial, sans-serif;
+}
 /*==============配色================*/
 html
 {
 	background:#252525;
 }
-#HeaderContainer,#HeaderContainer h1 a
-{
-	color:#f2f2f2;
-}
 #Container
 {
 	background:#f2f2f2 url('images/noise.png') top left;
 	border-bottom: 1px solid #bfbfbf;
+}
+#HeaderContainer,#HeaderContainer h1 a
+{
+	color:#f2f2f2;
 }
 #HeaderContainer
 {
@@ -321,11 +361,6 @@ html
 {
 	background:#f8f8f8;
 }
-#FooterContainer
-{
-	background-color: #ccc;
-	background: url('images/noise.png'),-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(50%, #cccccc), color-stop(100%, #b0b0b0));
-}
 .article
 {
 	background: url('images/dotline.png') top left repeat-x;
@@ -333,4 +368,9 @@ html
 .article:first-child
 {
 	background: none;
+}
+#FooterContainer
+{
+	background-color: #ccc;
+	background: url('images/noise.png'),-webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e0e0e0), color-stop(50%, #cccccc), color-stop(100%, #b0b0b0));
 }

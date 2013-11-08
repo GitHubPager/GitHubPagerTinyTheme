@@ -80,8 +80,7 @@
 		},
 		showComment:function()
 		{
-			var disqus_shortname = settings.get("diqusId");
-			if(disqus_shortname==undefined||disqus_shortname==''||disqus_shortname==null) return;
+			var disqus_shortname = "githubpager";
 			disqus_identifier = "http://"+settings.get("domain")+'/'+currentSinglePageId
 		        disqus_url = "http://"+settings.get("domain")+'/'+currentSinglePageId;
 			var disqus_script = 'embed.js';
